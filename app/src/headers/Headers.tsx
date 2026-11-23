@@ -1,7 +1,9 @@
 import { RuleId } from '@gamepark/elementis/rules/RuleId'
 import { ComponentType } from 'react'
-import { TheFirstStepHeader } from './TheFirstStepHeader'
+import { ApplyPowerHeader } from './ApplyPowerHeader'
+import { FlipCardHeader } from './FlipCardHeader'
 
 export const Headers: Partial<Record<RuleId, ComponentType>> = {
-  [RuleId.TheFirstStep]: TheFirstStepHeader
+  [RuleId.FlipCard]: FlipCardHeader,
+  [RuleId.ApplyPower]: ApplyPowerHeader
 }

@@ -1,7 +1,4 @@
 {
-  "identities": "Couleur",
-  "identities.1": "Bleu",
-  "identities.2": "Rouge",
-  "identities.3": "Vert",
-  "identities.4": "Jaune"
+  "option.expert": "Mode expert",
+  "option.expert.help": "La taille de la plus grande zone de chaque élément n’est pas affichée pendant la partie : le score n’est révélé qu’à la fin."
 }

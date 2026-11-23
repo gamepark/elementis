@@ -1,22 +1,35 @@
 import { MaterialGameSetup } from '@gamepark/rules-api'
+import { sample, sampleSize, shuffle } from 'es-toolkit'
 import { ElementisOptions } from './ElementisOptions'
 import { ElementisRules } from './ElementisRules'
+import { elements } from './material/Element'
+import { gridCells } from './material/Grid'
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
-import { PlayerColor } from './PlayerColor'
+import { powers, POWERS_PER_GAME } from './material/Power'
 import { RuleId } from './rules/RuleId'
 
 /**
  * This class creates a new Game based on the game options
  */
-export class ElementisSetup extends MaterialGameSetup<PlayerColor, MaterialType, LocationType, ElementisOptions> {
+export class ElementisSetup extends MaterialGameSetup<number, MaterialType, LocationType, ElementisOptions> {
   Rules = ElementisRules
 
+  /**
+   * [R-3] Draw 6 Help cards at random: they give the powers of the game. Take the 24 Element cards of these powers (4 per power),
+   * add an Elementis card, shuffle them, then lay them in a grid of 5 × 5 cards, power side up.
+   */
   setupMaterial(_options: ElementisOptions) {
-    // TODO
+    const gamePowers = sampleSize(powers, POWERS_PER_GAME).sort((a, b) => a - b)
+    this.material(MaterialType.HelpCard).createItems(gamePowers.map((id, x) => ({ id, location: { type: LocationType.HelpCards, x } })))
+    const [elementisCell, ...cells] = shuffle(gridCells)
+    this.material(MaterialType.ElementisCard).createItem({ location: { type: LocationType.Grid, ...elementisCell } })
+    const cards = gamePowers.flatMap((back) => elements.map((front) => ({ front, back })))
+    this.material(MaterialType.ElementCard).createItems(cards.map((id, i) => ({ id, location: { type: LocationType.Grid, ...cells[i] } })))
   }
 
+  /** The first player is chosen at random (F19). */
   start() {
-    this.startPlayerTurn(RuleId.TheFirstStep, this.players[0])
+    this.startPlayerTurn(RuleId.FlipCard, sample(this.players))
   }
 }

@@ -1,1 +1,6 @@
-{}
+{
+  "header.flip.you": "Retournez une carte voisine d’une carte Élément ou de la carte Élémentis",
+  "header.flip.player": "{player} retourne une carte",
+  "header.power.you": "Appliquez le pouvoir de la carte retournée",
+  "header.power.player": "{player} applique le pouvoir de la carte retournée"
+}
