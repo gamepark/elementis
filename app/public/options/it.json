@@ -1,1 +1,4 @@
-{}
+{
+  "option.expert": "Modalità esperto",
+  "option.expert.help": "La dimensione della zona più grande di ogni elemento non viene mostrata durante la partita: il punteggio viene rivelato solo alla fine."
+}

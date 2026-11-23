@@ -38,7 +38,7 @@
   "help.power-side.flip": "À votre tour, retournez une carte face pouvoir qui touche par un côté une carte Élément ou la carte Élémentis, puis appliquez son pouvoir. Une carte dont le pouvoir ne peut pas s’appliquer ne peut pas être choisie, sauf si aucune carte ne le peut : son pouvoir est alors sans effet.",
   "help.element.title": "Carte Élément {element}",
   "help.element.zone": "En fin de partie, pour chaque élément, seule la plus grande zone de cartes adjacentes par un côté compte : 1 point par carte.",
-  "help.element.largest": "Plus grande zone {element} actuelle : {count, plural, one {# carte} other {# cartes}}.",
+  "help.element.largest": "Plus grande zone actuelle de cet élément : {count, plural, one {# carte} other {# cartes}}.",
   "help.element.swap": "Deux cartes du même élément ne peuvent pas être échangées.",
   "help.rules.title": "Règles des pouvoirs",
   "help.rules.compulsory": "Le pouvoir est obligatoire dès qu’il est réalisable.",

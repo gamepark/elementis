@@ -1,1 +1,4 @@
-{}
+{
+  "option.expert": "Expert mode",
+  "option.expert.help": "The size of the largest zone of each element is not shown during the game: the score is only revealed at the end."
+}

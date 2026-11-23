@@ -1,1 +1,4 @@
-{}
+{
+  "option.expert": "Expertenmodus",
+  "option.expert.help": "Die Größe der größten Zone jedes Elements wird während der Partie nicht angezeigt: Die Punktzahl wird erst am Ende enthüllt."
+}
