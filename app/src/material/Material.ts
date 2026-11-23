@@ -8,6 +8,9 @@ import i18next from 'i18next'
 import { ElementisCard, elementImage, elementImages, helpImage, helpImages, powerImages } from '../images/Images'
 import { cardBorderRadius, cardSize, helpCardSize } from '../locators/TableLayout'
 import { canPlay, gridCardCss } from './GridHighlights'
+import { ElementCardHelp } from './help/ElementCardHelp'
+import { ElementisCardHelp } from './help/ElementisCardHelp'
+import { HelpCardHelp } from './help/HelpCardHelp'
 
 type Context = ItemContext<number, MaterialType, LocationType>
 
@@ -20,6 +23,7 @@ class ElementCardDescription extends CardDescription<number, MaterialType, Locat
   height = cardSize
   borderRadius = cardBorderRadius
   backImages = powerImages
+  help = ElementCardHelp
 
   getFrontId(itemId: ElementCardId) {
     return itemId?.front
@@ -58,6 +62,7 @@ class ElementisCardDescription extends CardDescription<number, MaterialType, Loc
   height = cardSize
   borderRadius = cardBorderRadius
   image = ElementisCard
+  help = ElementisCardHelp
 
   highlight(_item: MaterialItem<number, LocationType>, context: Context) {
     return canPlay(context)
@@ -73,6 +78,7 @@ class HelpCardDescription extends CardDescription<number, MaterialType, Location
   width = helpCardSize
   height = helpCardSize
   borderRadius = cardBorderRadius
+  help = HelpCardHelp
 
   getImage(power: Power) {
     return helpImage(power, i18next.language)
