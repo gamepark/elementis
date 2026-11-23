@@ -72,6 +72,11 @@ describe('Setup [R-3]', () => {
     expect(game.items[MaterialType.HelpCard]!.map((item) => item.id).sort()).toEqual([...powers].sort())
   })
 
+  it('does not tell the hidden element of a card by its index', () => {
+    const fronts = new Set(Array.from({ length: 40 }, () => (newGame().items[MaterialType.ElementCard]![0].id as ElementCardId).front))
+    expect(fronts.size).toBe(4)
+  })
+
   it('hides the element of the cards still on their power side from everyone', () => {
     const view = new ElementisRules(newGame()).getView()
     expect(view.items[MaterialType.ElementCard]!.every((item) => (item.id as ElementCardId).front === undefined)).toBe(true)

@@ -26,7 +26,8 @@ export class ElementisSetup extends MaterialGameSetup<number, MaterialType, Loca
     this.material(MaterialType.HelpCard).createItems(gamePowers.map((id, x) => ({ id, location: { type: LocationType.HelpCards, x } })))
     const [elementisCell, ...cells] = shuffle(gridCells)
     this.material(MaterialType.ElementisCard).createItem({ location: { type: LocationType.Grid, ...elementisCell } })
-    const cards = gamePowers.flatMap((back) => elements.map((front) => ({ front, back })))
+    // Shuffled before they are created: the index of a card, seen by everyone, must not tell its hidden element
+    const cards = shuffle(gamePowers.flatMap((back) => elements.map((front) => ({ front, back }))))
     this.material(MaterialType.ElementCard).createItems(cards.map((id, i) => ({ id, location: { type: LocationType.Grid, ...cells[i] } })))
   }
 
