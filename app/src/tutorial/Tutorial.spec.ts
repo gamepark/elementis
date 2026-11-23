@@ -1,4 +1,3 @@
-import { chooseMoves } from '@gamepark/elementis/ai/ElementisAI'
 import { ElementisRules } from '@gamepark/elementis/ElementisRules'
 import { LocationType } from '@gamepark/elementis/material/LocationType'
 import { MaterialType } from '@gamepark/elementis/material/MaterialType'
@@ -18,7 +17,7 @@ vi.mock('@gamepark/react-game', async () => ({
 const tutorial = new Tutorial()
 wrapRulesWithTutorial(tutorial, ElementisRules)
 
-/** Plays the script: popups are closed, each move step plays its first allowed move. Then the game is finished by the bot. */
+/** Plays the script: popups are closed, each move step plays its first allowed move. Then the game is finished with random moves. */
 const playTutorial = () => {
   const [game] = tutorial.setupTutorial() as [Game, unknown]
   const reached: number[] = []
@@ -34,7 +33,8 @@ const playTutorial = () => {
       applyAutomaticMoves(rules, [legal.find((move: MaterialMove) => move.kind !== MoveKind.LocalMove) ?? legal[0]])
     } else {
       const player = rules.getActivePlayer()!
-      for (const move of chooseMoves(game, player)) applyAutomaticMoves(new ElementisRules(game), [move])
+      const legal = rules.getLegalMoves(player)
+      applyAutomaticMoves(rules, [legal[Math.floor(Math.random() * legal.length)]])
     }
   }
   return { game, reached }

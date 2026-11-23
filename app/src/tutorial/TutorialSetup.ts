@@ -9,7 +9,6 @@ import { RuleId } from '@gamepark/elementis/rules/RuleId'
 import { shuffle } from 'es-toolkit'
 
 export const me = 1
-export const partner = 2
 
 /** The 6 powers of the script. */
 const tutorialPowers = [Power.RowSwap, Power.Push, Power.DiagonalSwap, Power.AdjacentSwap, Power.ElementisSwap, Power.PlayedAdjacentSwap]
@@ -18,15 +17,15 @@ const tutorialPowers = [Power.RowSwap, Power.Push, Power.DiagonalSwap, Power.Adj
 export const elementisCell: Cell = { x: 2, y: 2 }
 /** Turn 1: the player flips the card above the Elementis card, a Water card whose power swaps it with an adjacent card. */
 export const firstCell: Cell = { x: 2, y: 1 }
-/** Olwen flips a second Water card next to the first one, then swaps the Elementis card with its neighbour on the left. */
-export const partnerCell: Cell = { x: 2, y: 3 }
-/** Turn 2: the player flips a Fire card with the push power. */
+/** Turn 2: the player flips a second Water card next to the first one, then swaps the Elementis card with its neighbour on the left. */
+export const secondCell: Cell = { x: 2, y: 3 }
+/** Turn 3: the player flips a Fire card with the push power. */
 export const pushCell: Cell = { x: 3, y: 2 }
 
 /** The cards of the script, the others are dealt at random in the other cells. */
 const scripted: [Cell, Element, Power][] = [
   [firstCell, Element.Water, Power.PlayedAdjacentSwap],
-  [partnerCell, Element.Water, Power.AdjacentSwap],
+  [secondCell, Element.Water, Power.AdjacentSwap],
   [pushCell, Element.Fire, Power.Push]
 ]
 

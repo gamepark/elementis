@@ -1,4 +1,3 @@
-import { ElementisAI } from '@gamepark/elementis/ai/ElementisAI'
 import { ElementisOptionsSpecV2 } from '@gamepark/elementis/ElementisOptions'
 import { ElementisRules } from '@gamepark/elementis/ElementisRules'
 import { ElementisSetup } from '@gamepark/elementis/ElementisSetup'
@@ -23,7 +22,6 @@ createRoot(document.getElementById('root')!).render(
       material={Material}
       locators={Locators}
       animations={gameAnimations}
-      ai={ElementisAI}
       tutorial={new Tutorial()}
       scoring={new ElementisScoring()}
       logs={new ElementisHistory()}
