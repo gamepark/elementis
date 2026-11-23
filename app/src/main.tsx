@@ -11,6 +11,7 @@ import { ElementisHistory } from './history/ElementisHistory'
 import { Locators } from './locators/Locators'
 import { Material } from './material/Material'
 import { ElementisScoring } from './scoring/ElementisScoring'
+import { Tutorial } from './tutorial/Tutorial'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -23,6 +24,7 @@ createRoot(document.getElementById('root')!).render(
       locators={Locators}
       animations={gameAnimations}
       ai={ElementisAI}
+      tutorial={new Tutorial()}
       scoring={new ElementisScoring()}
       logs={new ElementisHistory()}
     >

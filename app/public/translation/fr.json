@@ -61,5 +61,19 @@
   "log.push.left": "{player} insère {card} par la gauche de la ligne {line}",
   "log.push.right": "{player} insère {card} par la droite de la ligne {line}",
   "log.push.top": "{player} insère {card} par le haut de la colonne {line}",
-  "log.push.bottom": "{player} insère {card} par le bas de la colonne {line}"
+  "log.push.bottom": "{player} insère {card} par le bas de la colonne {line}",
+  "tuto.welcome": "Bienvenue dans le tutoriel d’<bold>Elementis</bold> ! Vous jouez avec Olwen, l’une des autrices du jeu : Elementis est un jeu <bold>coopératif</bold>, qui se joue <bold>sans se parler</bold>.",
+  "tuto.goal": "Ensemble, créez des zones de cartes adjacentes du même élément : <bold>Eau, Feu, Terre et Air</bold>.\nEn fin de partie, seule la <bold>plus grande zone de chaque élément</bold> compte : 1 point par carte, 24 points au maximum. Il faut <bold>22 points</bold> pour gagner.",
+  "tuto.grid": "La grille de 5 × 5 cartes est posée <bold>face pouvoir</bold> : l’élément de chaque carte est caché.",
+  "tuto.help-cards": "Ces 6 <bold>cartes Aide de jeu</bold> expliquent les pouvoirs de la partie. Cliquez sur une carte à tout moment pour voir son aide.",
+  "tuto.turn": "À votre tour, retournez une carte qui touche par un côté une carte Élément ou la <bold>carte Élémentis</bold>, puis appliquez son pouvoir : c’est obligatoire dès que c’est possible.",
+  "tuto.flip.first": "Au premier tour, aucune carte n’est retournée : partez de la carte Élémentis. <bold>Cliquez sur la carte au-dessus d’elle</bold> pour la retourner.",
+  "tuto.power.first": "C’est une carte <bold>Eau</bold>. Son pouvoir : échangez la carte jouée avec une carte orthogonalement adjacente.\nFaites-la <bold>glisser sur la carte Élémentis</bold> pour les échanger.",
+  "tuto.partner": "Au tour d’Olwen. Elle retourne la carte sous votre carte Eau…",
+  "tuto.zone": "… une autre carte <bold>Eau</bold> ! Les 2 cartes se touchent par un côté : elles forment une zone de 2 cartes. Olwen applique maintenant son pouvoir.",
+  "tuto.last-move": "Olwen a échangé la carte Élémentis avec sa voisine. Les cartes déplacées au tour précédent sont <bold>entourées en pointillés</bold> : il est interdit de faire le mouvement inverse.\nDeux cartes du même élément ne peuvent jamais être échangées.",
+  "tuto.flip.push": "À vous. <bold>Retournez la carte à droite de votre carte Eau.</bold>",
+  "tuto.push": "Une carte <bold>Feu</bold>, avec le pouvoir : retirez la carte jouée, insérez-la par l’extérieur en poussant les cartes vers le trou formé.\nLa carte attend sur le côté du plateau : <bold>cliquez sur la flèche à droite de sa ligne</bold> pour l’y insérer.",
+  "tuto.score": "L’encadré <bold>Plus grandes zones</bold>, à droite, donne la taille de la plus grande zone de chaque élément et le total. En mode expert, il est caché jusqu’à la fin.",
+  "tuto.go": "La partie s’arrête quand toutes les cartes sont retournées. À vous de la finir avec Olwen : bonne chance !"
 }
