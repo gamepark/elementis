@@ -3,9 +3,10 @@ import { MaterialType } from '@gamepark/elementis/material/MaterialType'
 import { Power } from '@gamepark/elementis/material/Power'
 import { ElementCardId } from '@gamepark/elementis/rules/GridState'
 import { CardDescription, ItemContext, MaterialDescription } from '@gamepark/react-game'
-import { isMoveItemType, MaterialMove } from '@gamepark/rules-api'
+import { isMoveItemType, MaterialItem, MaterialMove } from '@gamepark/rules-api'
 import { ElementisCard, elementImage, elementImages, powerImages } from '../images/Images'
 import { cardBorderRadius, cardSize, helpCardSize } from '../locators/TableLayout'
+import { canPlay, gridCardCss, isPushTo } from './GridHighlights'
 
 type Context = ItemContext<number, MaterialType, LocationType>
 
@@ -35,9 +36,23 @@ class ElementCardDescription extends CardDescription<number, MaterialType, Locat
     return [...elementImages, ...Object.values(powerImages)]
   }
 
-  /** A click on a card on its power side flips it. */
+  /**
+   * A click on a card on its power side flips it where it is. A click on a card at an end of the row or column of a played push
+   * card pushes it in there. A swap is played by dragging a card onto the other.
+   */
   canShortClick(move: MaterialMove<number, MaterialType, LocationType>, context: Context) {
-    return isMoveItemType(MaterialType.ElementCard)(move) && move.itemIndex === context.index && move.location.rotation === true
+    if (!isMoveItemType(MaterialType.ElementCard)(move)) return isPushTo(move, context)
+    const { x, y, rotation } = context.rules.material(MaterialType.ElementCard).getItem(context.index).location
+    if (move.itemIndex === context.index) return !rotation && move.location.rotation === true && move.location.x === x && move.location.y === y
+    return isPushTo(move, context)
+  }
+
+  highlight(_item: MaterialItem<number, LocationType>, context: Context) {
+    return canPlay(context)
+  }
+
+  getItemExtraCss(item: MaterialItem<number, LocationType>, context: Context) {
+    return gridCardCss(item, context)
   }
 }
 
@@ -46,6 +61,19 @@ class ElementisCardDescription extends CardDescription<number, MaterialType, Loc
   height = cardSize
   borderRadius = cardBorderRadius
   image = ElementisCard
+
+  /** A click on the Elementis card at an end of the row or column of a played push card pushes it in there. */
+  canShortClick(move: MaterialMove<number, MaterialType, LocationType>, context: Context) {
+    return isPushTo(move, context)
+  }
+
+  highlight(_item: MaterialItem<number, LocationType>, context: Context) {
+    return canPlay(context)
+  }
+
+  getItemExtraCss(item: MaterialItem<number, LocationType>, context: Context) {
+    return gridCardCss(item, context)
+  }
 }
 
 /** A Help card shows the pattern of a power of the game: the power side of its cards. */

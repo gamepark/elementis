@@ -21,7 +21,9 @@ export class ApplyPowerRule extends PlayerTurnRule<number, MaterialType, Locatio
     return this.remind<Cell>(Memory.PlayedCell)
   }
 
+  /** Nothing to play while the move of the player is being completed: a cell of the grid can be empty for a moment. */
   getPlayerMoves() {
+    if (this.remind(Memory.MoveOrigin)) return []
     const state = new GridState(this.game)
     return state.powerMoves(this.played).flatMap((move): MaterialMove<number, MaterialType, LocationType>[] => {
       if ('push' in move) return [this.moveTo(state, move.push.from, move.push.to)]
@@ -37,7 +39,7 @@ export class ApplyPowerRule extends PlayerTurnRule<number, MaterialType, Locatio
   beforeItemMove(move: ItemMove<number, MaterialType, LocationType>) {
     if (!isMoveItem(move) || this.remind(Memory.MoveOrigin)) return []
     const { x, y } = this.material(move.itemType).getItem(move.itemIndex).location
-    const push = new GridState(this.game).powerAt(this.played) === Power.Push
+    const push = this.remind(Memory.PlayedPower) === Power.Push
     this.memorize<MoveOrigin>(Memory.MoveOrigin, { cell: { x: x!, y: y! }, itemType: move.itemType, itemIndex: move.itemIndex, push })
     return []
   }
@@ -75,6 +77,7 @@ export class ApplyPowerRule extends PlayerTurnRule<number, MaterialType, Locatio
 
   onRuleEnd() {
     this.forget(Memory.PlayedCell)
+    this.forget(Memory.PlayedPower)
     this.forget(Memory.MoveOrigin)
     return []
   }

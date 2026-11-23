@@ -18,6 +18,20 @@ const legalMoves = (game: Game) => {
   return rules.getLegalMoves(rules.getActivePlayer()!)
 }
 const play = (game: Game, move: Move) => applyAutomaticMoves(new ElementisRules(game), [move])
+
+/**
+ * Plays a move and its consequences one by one, computing the legal moves after each of them, as the display does while it
+ * animates: the intermediate states must never break the rules.
+ */
+const playStepByStep = (game: Game, move: Move) => {
+  const queue = [move]
+  while (queue.length) {
+    const rules = new ElementisRules(game)
+    queue.unshift(...rules.play(queue.shift()!))
+    const player = new ElementisRules(game).getActivePlayer()
+    if (player !== undefined) new ElementisRules(game).getLegalMoves(player)
+  }
+}
 const cellOf = (game: Game, type: MaterialType, index: number): Cell => {
   const { x, y } = game.items[type]![index].location
   return { x: x!, y: y! }
@@ -31,7 +45,7 @@ const playRandomGame = (game: Game) => {
   while (game.rule?.id !== undefined) {
     const moves = legalMoves(game)
     expect(moves.length).toBeGreaterThan(0)
-    play(game, moves[Math.floor(Math.random() * moves.length)])
+    playStepByStep(game, moves[Math.floor(Math.random() * moves.length)])
     expect(new Set(gridKeys(game)).size).toBe(25)
     if (game.rule?.id === RuleId.FlipCard) turns++
     expect(turns).toBeLessThanOrEqual(24)
@@ -62,7 +76,7 @@ describe('Setup [R-3]', () => {
   })
 })
 
-describe('A turn', () => {
+describe('A turn', { timeout: 60_000 }, () => {
   it('starts next to the Elementis card [R-4.1]', () => {
     const game = newGame()
     const elementis = cellOf(game, MaterialType.ElementisCard, 0)
@@ -112,7 +126,7 @@ describe('A turn', () => {
   })
 })
 
-describe('Whole games', () => {
+describe('Whole games', { timeout: 60_000 }, () => {
   it.each([1, 2])('end when all the cards are flipped, at %i players [R-6]', (players) => {
     for (let i = 0; i < 100; i++) {
       const game = playRandomGame(newGame(players))

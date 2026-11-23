@@ -1,6 +1,20 @@
 {
   "header.flip.you": "Retournez une carte voisine d’une carte Élément ou de la carte Élémentis",
   "header.flip.player": "{player} retourne une carte",
-  "header.power.you": "Appliquez le pouvoir de la carte retournée",
-  "header.power.player": "{player} applique le pouvoir de la carte retournée"
+  "header.flip.you.no-effect": "Aucun pouvoir n’est applicable : retournez une carte voisine, son pouvoir sera sans effet",
+  "header.power.you": "{power}",
+  "header.power.you.push": "Cliquez sur une carte au bout de la ligne ou de la colonne de la carte jouée pour l’y insérer",
+  "header.power.player": "{player} applique le pouvoir : {power}",
+  "power.1": "Échangez une carte intérieure avec une autre carte intérieure, carte centrale comprise.",
+  "power.2": "Échangez une carte extérieure avec une autre carte extérieure.",
+  "power.3": "Échangez une carte extérieure avec une carte intérieure, carte centrale comprise.",
+  "power.4": "Échangez deux cartes sur la colonne de la carte jouée.",
+  "power.5": "Échangez deux cartes sur la ligne de la carte jouée.",
+  "power.7": "Retirez la carte jouée, insérez-la par l’extérieur en poussant les cartes vers le trou formé.",
+  "power.8": "Échangez deux cartes sur une diagonale de la carte jouée.",
+  "power.9": "Échangez deux cartes adjacentes l’une avec l’autre horizontalement ou verticalement.",
+  "power.10": "Échangez deux cartes qui sont séparées d’une carte, horizontalement ou verticalement.",
+  "power.12": "Échangez deux cartes diagonalement adjacentes.",
+  "power.13": "Échangez n’importe quelle carte avec la carte Élémentis.",
+  "power.15": "Échangez la carte jouée avec une carte orthogonalement adjacente."
 }

@@ -3,6 +3,8 @@ export enum Memory {
   LastMove = 1,
   /** The cell of the card flipped this turn, whose power is applied. */
   PlayedCell,
+  /** The power of the card flipped this turn. */
+  PlayedPower,
   /** The cell the first card of a swap or a push leaves, until the move is completed. */
   MoveOrigin
 }

@@ -26,8 +26,10 @@ export class FlipCardRule extends PlayerTurnRule<number, MaterialType, LocationT
   afterItemMove(move: ItemMove<number, MaterialType, LocationType>) {
     if (!isMoveItemType(MaterialType.ElementCard)(move)) return []
     const played = { x: move.location.x!, y: move.location.y! }
-    if (new GridState(this.game).powerMoves(played).length) {
+    const state = new GridState(this.game)
+    if (state.powerMoves(played).length) {
       this.memorize(Memory.PlayedCell, played)
+      this.memorize(Memory.PlayedPower, state.powerAt(played))
       return [this.startRule(RuleId.ApplyPower)]
     }
     this.forget(Memory.LastMove)
