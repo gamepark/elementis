@@ -1,3 +1,3 @@
-export { GameTemplateRules } from './GameTemplateRules'
-export { GameTemplateOptionsSpecV2 } from './GameTemplateOptions'
-export { GameTemplateSetup } from './GameTemplateSetup'
+export { ElementisRules } from './ElementisRules'
+export { ElementisOptionsSpecV2 } from './ElementisOptions'
+export { ElementisSetup } from './ElementisSetup'
