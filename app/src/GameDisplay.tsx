@@ -2,6 +2,7 @@ import { css } from '@emotion/react'
 import { DevToolsHub, GameTable, GameTableNavigation } from '@gamepark/react-game'
 import { tableBounds } from './locators/TableLayout'
 import { PlayerPanels } from './panels/PlayerPanels'
+import { ZonesPanel } from './panels/ZonesPanel'
 
 export function GameDisplay() {
   const margin = { top: 7, left: 0, right: 30, bottom: 0 }
@@ -10,6 +11,7 @@ export function GameDisplay() {
       <GameTable {...tableBounds} margin={margin} css={process.env.NODE_ENV === 'development' && tableBorder}>
         <GameTableNavigation />
         <PlayerPanels />
+        <ZonesPanel />
         {process.env.NODE_ENV === 'development' && <DevToolsHub fabBottom="calc(5em)" />}
       </GameTable>
     </>

@@ -16,5 +16,20 @@
   "power.10": "Échangez deux cartes qui sont séparées d’une carte, horizontalement ou verticalement.",
   "power.12": "Échangez deux cartes diagonalement adjacentes.",
   "power.13": "Échangez n’importe quelle carte avec la carte Élémentis.",
-  "power.15": "Échangez la carte jouée avec une carte orthogonalement adjacente."
+  "power.15": "Échangez la carte jouée avec une carte orthogonalement adjacente.",
+  "element.1": "Eau",
+  "element.2": "Feu",
+  "element.3": "Terre",
+  "element.4": "Air",
+  "zones.title": "Plus grandes zones",
+  "zones.total": "Total",
+  "zones.total.value": "{total} / 24",
+  "scoring.zone.1": "Plus grande zone d’Eau",
+  "scoring.zone.2": "Plus grande zone de Feu",
+  "scoring.zone.3": "Plus grande zone de Terre",
+  "scoring.zone.4": "Plus grande zone d’Air",
+  "scoring.total": "Total",
+  "result.won": "Victoire ! Vous marquez {score} points sur 24 ({threshold} nécessaires)",
+  "result.lost": "Défaite : vous marquez {score} points sur 24, il en fallait {threshold}",
+  "zones.goal": "Victoire à {threshold} points"
 }

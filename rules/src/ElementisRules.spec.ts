@@ -7,6 +7,7 @@ import { Cell, orthogonalNeighbors, sameCell } from './material/Grid'
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
 import { ElementCardId, GridState } from './rules/GridState'
+import { Memory } from './rules/Memory'
 import { RuleId } from './rules/RuleId'
 
 type Game = MaterialGame<number, MaterialType, LocationType, RuleId>
@@ -73,6 +74,13 @@ describe('Setup [R-3]', () => {
     const view = new ElementisRules(newGame()).getView()
     expect(view.items[MaterialType.ElementCard]!.every((item) => (item.id as ElementCardId).front === undefined)).toBe(true)
     expect(view.items[MaterialType.ElementCard]!.every((item) => (item.id as ElementCardId).back !== undefined)).toBe(true)
+  })
+})
+
+describe('Options', () => {
+  it('remembers the expert mode, to hide the score help during the game', () => {
+    expect(new ElementisSetup().setup({ players: 1, expert: true }).memory[Memory.Expert]).toBe(true)
+    expect(newGame().memory[Memory.Expert]).toBeUndefined()
   })
 })
 

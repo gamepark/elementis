@@ -7,6 +7,7 @@ import { gridCells } from './material/Grid'
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
 import { powers, POWERS_PER_GAME } from './material/Power'
+import { Memory } from './rules/Memory'
 import { RuleId } from './rules/RuleId'
 
 /**
@@ -19,7 +20,8 @@ export class ElementisSetup extends MaterialGameSetup<number, MaterialType, Loca
    * [R-3] Draw 6 Help cards at random: they give the powers of the game. Take the 24 Element cards of these powers (4 per power),
    * add an Elementis card, shuffle them, then lay them in a grid of 5 × 5 cards, power side up.
    */
-  setupMaterial(_options: ElementisOptions) {
+  setupMaterial(options: ElementisOptions) {
+    if (options.expert) this.memorize(Memory.Expert, true)
     const gamePowers = sampleSize(powers, POWERS_PER_GAME).sort((a, b) => a - b)
     this.material(MaterialType.HelpCard).createItems(gamePowers.map((id, x) => ({ id, location: { type: LocationType.HelpCards, x } })))
     const [elementisCell, ...cells] = shuffle(gridCells)
