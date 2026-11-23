@@ -2,8 +2,9 @@ import { gridCells } from '@gamepark/elementis/material/Grid'
 import { LocationType } from '@gamepark/elementis/material/LocationType'
 import { MaterialType } from '@gamepark/elementis/material/MaterialType'
 import { DropAreaDescription, ItemContext, Locator, MaterialContext } from '@gamepark/react-game'
-import { isMoveItem, Location, MaterialMove } from '@gamepark/rules-api'
+import { isMoveItem, Location, MaterialItem, MaterialMove } from '@gamepark/rules-api'
 import { pushEntries } from '../material/GridHighlights'
+import { cardHoverTransform } from './CardHover'
 import { EntryArrow } from './EntryArrow'
 import { arrowSize, cardBorderRadius, cardSize, gridCellCoordinates, gridEntryCoordinates, helpCardCoordinates, pushedCardCoordinates } from './TableLayout'
 
@@ -38,6 +39,11 @@ class GridLocator extends Locator<number, MaterialType, LocationType> {
 class HelpCardsLocator extends Locator<number, MaterialType, LocationType> {
   getCoordinates(location: Loc) {
     return helpCardCoordinates(location.x!)
+  }
+
+  /** The text of a Help card can be read when the pointer is over it. */
+  getHoverTransform(item: MaterialItem<number, LocationType>, context: ItemContext<number, MaterialType, LocationType>) {
+    return cardHoverTransform(item, context)
   }
 }
 
