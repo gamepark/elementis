@@ -1,6 +1,6 @@
 {
   "name": "@gamepark/elementis",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "The rules of Elementis adapted for Game Park",
   "sideEffects": false,
   "type": "module",
