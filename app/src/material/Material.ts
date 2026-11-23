@@ -4,7 +4,8 @@ import { Power } from '@gamepark/elementis/material/Power'
 import { ElementCardId } from '@gamepark/elementis/rules/GridState'
 import { CardDescription, ItemContext, MaterialDescription } from '@gamepark/react-game'
 import { isMoveItemType, MaterialItem, MaterialMove } from '@gamepark/rules-api'
-import { ElementisCard, elementImage, elementImages, powerImages } from '../images/Images'
+import i18next from 'i18next'
+import { ElementisCard, elementImage, elementImages, helpImage, helpImages, powerImages } from '../images/Images'
 import { cardBorderRadius, cardSize, helpCardSize } from '../locators/TableLayout'
 import { canPlay, gridCardCss, isPushTo } from './GridHighlights'
 
@@ -76,12 +77,19 @@ class ElementisCardDescription extends CardDescription<number, MaterialType, Loc
   }
 }
 
-/** A Help card shows the pattern of a power of the game: the power side of its cards. */
+/** A Help card explains a power of the game: its pattern and its text, printed in English and in French. */
 class HelpCardDescription extends CardDescription<number, MaterialType, LocationType, Power> {
   width = helpCardSize
   height = helpCardSize
   borderRadius = cardBorderRadius
-  images = powerImages
+
+  getImage(power: Power) {
+    return helpImage(power, i18next.language)
+  }
+
+  getImages() {
+    return helpImages
+  }
 }
 
 export const Material: Partial<Record<MaterialType, MaterialDescription<number, MaterialType, LocationType>>> = {

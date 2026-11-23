@@ -14,6 +14,9 @@ const elementOffsets = { water: 1, air: 16, fire: 31, earth: 46 }
 // Power faces are not in the order of the powers.
 const powerFaces = { 1: 63, 2: 64, 3: 62, 4: 65, 5: 66, 7: 68, 8: 69, 9: 70, 10: 71, 12: 72, 13: 73, 15: 76 }
 
+// Help cards, English then French: the text of the power is printed on them.
+const helpCards = { 1: [87, 88], 2: [89, 90], 3: [77, 78], 4: [83, 84], 5: [81, 82], 7: [93, 94], 8: [85, 86], 9: [79, 80], 10: [95, 96], 12: [99, 100], 13: [101, 102], 15: [105, 106] }
+
 let total = 0
 async function convert(n, out) {
   const file = path.join(dst, out)
@@ -25,6 +28,8 @@ async function convert(n, out) {
 for (const power of powers) {
   for (const [element, offset] of Object.entries(elementOffsets)) await convert(power + offset, `cards/elements/${element}-${power}.webp`)
   await convert(powerFaces[power], `cards/powers/power-${power}.webp`)
+  await convert(helpCards[power][0], `cards/help/help-${power}-en.webp`)
+  await convert(helpCards[power][1], `cards/help/help-${power}-fr.webp`)
 }
 await convert(107, 'cards/elementis.webp')
-console.log(`${powers.length * 5 + 1} images, ${(total / 1e6).toFixed(2)} MB`)
+console.log(`${powers.length * 7 + 1} images, ${(total / 1e6).toFixed(2)} MB`)

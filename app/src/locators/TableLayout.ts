@@ -17,8 +17,8 @@ export const gridCellCoordinates = (x: number, y: number) => ({
   y: (y - (GRID_SIZE - 1) / 2) * cardPitch
 })
 
-export const helpCardSize = 5
-const helpCardPitch = helpCardSize + 0.4
+export const helpCardSize = cardSize
+const helpCardPitch = helpCardSize + cardGap
 const helpLeft = -gridWidth / 2 - 2 - 2 * helpCardPitch + helpCardSize / 2
 
 /** The Help cards: 2 columns of 3, left of the grid. */

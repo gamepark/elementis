@@ -27,3 +27,10 @@ export const elementImage = (element: Element, power: Power) => elementFile(`${e
 export const elementImages = Object.values(elementNames).flatMap((element) => powers.map((power) => elementFile(`${element}-${power}`)))
 
 export const powerImages = Object.fromEntries(powers.map((power) => [power, powerFile(`power-${power}`)])) as Record<Power, string>
+
+const helpFile = glob(import.meta.glob<string>('./cards/help/*.webp', { eager: true, import: 'default' }))
+
+/** The Help cards are printed in English and in French: French for the French players, English for all the others. */
+export const helpImage = (power: Power, language?: string) => helpFile(`help-${power}-${language?.startsWith('fr') ? 'fr' : 'en'}`)
+
+export const helpImages = powers.flatMap((power) => [helpImage(power, 'en'), helpImage(power, 'fr')])
