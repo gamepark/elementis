@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { ElementisRules } from './ElementisRules'
 import { ElementisSetup } from './ElementisSetup'
 import { Element } from './material/Element'
-import { Cell, orthogonalNeighbors, sameCell } from './material/Grid'
+import { Cell, gridCells, orthogonalNeighbors, sameCell } from './material/Grid'
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
 import { ElementCardId, GridState } from './rules/GridState'
@@ -38,7 +38,7 @@ const cellOf = (game: Game, type: MaterialType, index: number): Cell => {
   return { x: x!, y: y! }
 }
 const gridKeys = (game: Game) =>
-  [MaterialType.ElementCard, MaterialType.ElementisCard].flatMap((type) => game.items[type]!.map((item) => `${item.location.x},${item.location.y}`))
+  [MaterialType.ElementCard, MaterialType.ElementisCard].flatMap((type) => game.items[type]!.filter((item) => item.location.type === LocationType.Grid).map((item) => `${item.location.x},${item.location.y}`))
 
 /** Plays random legal moves until the end of the game, checking the grid after each move. */
 const playRandomGame = (game: Game) => {
@@ -47,7 +47,9 @@ const playRandomGame = (game: Game) => {
     const moves = legalMoves(game)
     expect(moves.length).toBeGreaterThan(0)
     playStepByStep(game, moves[Math.floor(Math.random() * moves.length)])
-    expect(new Set(gridKeys(game)).size).toBe(25)
+    // Between 2 turns, the grid is full; while a push is applied, the played card waits beside the board
+    const pushing = game.rule?.id === RuleId.ApplyPower && game.items[MaterialType.ElementCard]!.some((item) => item.location.type === LocationType.PushedCard)
+    expect(new Set(gridKeys(game)).size).toBe(pushing ? 24 : 25)
     if (game.rule?.id === RuleId.FlipCard) turns++
     expect(turns).toBeLessThanOrEqual(24)
   }
@@ -117,20 +119,52 @@ describe('A turn', { timeout: 60_000 }, () => {
           const previous = new GridState(game).lastMove
           for (const move of legalMoves(game)) {
             const after = JSON.parse(JSON.stringify(game)) as Game
-            const before = gridKeys(after)
             play(after, move)
             const state = new GridState(after).lastMove!
             if (previous) {
               const undoes = state.length === previous.length && previous.every(([from, to]) => state.some(([a, b]) => sameCell(a, to) && sameCell(b, from)))
               expect(undoes).toBe(false)
             }
-            expect(gridKeys(after).sort()).toEqual(before.sort())
+            expect(new Set(gridKeys(after)).size).toBe(25)
           }
         }
         const moves = legalMoves(game)
         play(game, moves[Math.floor(Math.random() * moves.length)])
       }
     }
+  })
+})
+
+describe('A push (P-7)', () => {
+  it('removes the played card, then inserts it back from an entry outside the grid, the cards sliding towards the hole', () => {
+    const game = newGame(1)
+    const cards = game.items[MaterialType.ElementCard]!
+    const elementis = game.items[MaterialType.ElementisCard]![0]
+    const at = (x: number, y: number) => [...cards, elementis].find((item) => item.location.x === x && item.location.y === y)!
+    // A push card in (0, 2), the Elementis card on its right in (1, 2), the other cards anywhere else
+    const pushCard = cards[0]
+    ;(pushCard.id as ElementCardId).back = 7
+    pushCard.location = { type: LocationType.Grid, x: 0, y: 2 }
+    elementis.location = { type: LocationType.Grid, x: 1, y: 2 }
+    const free = gridCells.filter((cell) => cell.y !== 2 || cell.x > 1)
+    cards.slice(1).forEach((item, i) => (item.location = { type: LocationType.Grid, ...free[i] }))
+    const index = cards.indexOf(pushCard)
+    play(game, legalMoves(game).find((move) => isMoveItemType(MaterialType.ElementCard)(move) && move.itemIndex === index)!)
+    expect(game.rule?.id).toBe(RuleId.ApplyPower)
+    expect(cards[index].location.type).toBe(LocationType.PushedCard)
+    const entries = legalMoves(game).map((move) => isMoveItemType(MaterialType.ElementCard)(move) && move.location)
+    expect(entries).toContainEqual({ type: LocationType.GridEntry, x: 5, y: 2 })
+    expect(entries).not.toContainEqual({ type: LocationType.GridEntry, x: -1, y: 2 })
+    const row = [1, 2, 3, 4].map((x) => {
+      const item = at(x, 2)
+      return item === elementis ? ([MaterialType.ElementisCard, 0] as const) : ([MaterialType.ElementCard, cards.indexOf(item)] as const)
+    })
+    play(game, legalMoves(game).find((move) => isMoveItemType(MaterialType.ElementCard)(move) && move.location.x === 5 && move.location.y === 2)!)
+    // It comes in at the right end of its row: the cards of the row slide to the left, into the hole
+    expect(game.items[MaterialType.ElementCard]![index].location).toEqual({ type: LocationType.Grid, x: 4, y: 2, rotation: true })
+    expect(row.map(([type, i]) => game.items[type]![i].location.x)).toEqual([0, 1, 2, 3])
+    expect(new Set(gridKeys(game)).size).toBe(25)
+    expect(game.rule?.id).toBe(RuleId.FlipCard)
   })
 })
 

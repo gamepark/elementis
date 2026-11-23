@@ -7,7 +7,7 @@ import { isMoveItemType, MaterialItem, MaterialMove } from '@gamepark/rules-api'
 import i18next from 'i18next'
 import { ElementisCard, elementImage, elementImages, helpImage, helpImages, powerImages } from '../images/Images'
 import { cardBorderRadius, cardSize, helpCardSize } from '../locators/TableLayout'
-import { canPlay, gridCardCss, isPushTo } from './GridHighlights'
+import { canPlay, gridCardCss } from './GridHighlights'
 
 type Context = ItemContext<number, MaterialType, LocationType>
 
@@ -37,15 +37,11 @@ class ElementCardDescription extends CardDescription<number, MaterialType, Locat
     return [...elementImages, ...Object.values(powerImages)]
   }
 
-  /**
-   * A click on a card on its power side flips it where it is. A click on a card at an end of the row or column of a played push
-   * card pushes it in there. A swap is played by dragging a card onto the other.
-   */
+  /** A click on a card on its power side flips it where it is. A swap is played by dragging a card onto the other. */
   canShortClick(move: MaterialMove<number, MaterialType, LocationType>, context: Context) {
-    if (!isMoveItemType(MaterialType.ElementCard)(move)) return isPushTo(move, context)
+    if (!isMoveItemType(MaterialType.ElementCard)(move) || move.itemIndex !== context.index) return false
     const { x, y, rotation } = context.rules.material(MaterialType.ElementCard).getItem(context.index).location
-    if (move.itemIndex === context.index) return !rotation && move.location.rotation === true && move.location.x === x && move.location.y === y
-    return isPushTo(move, context)
+    return !rotation && move.location.rotation === true && move.location.x === x && move.location.y === y
   }
 
   highlight(_item: MaterialItem<number, LocationType>, context: Context) {
@@ -62,11 +58,6 @@ class ElementisCardDescription extends CardDescription<number, MaterialType, Loc
   height = cardSize
   borderRadius = cardBorderRadius
   image = ElementisCard
-
-  /** A click on the Elementis card at an end of the row or column of a played push card pushes it in there. */
-  canShortClick(move: MaterialMove<number, MaterialType, LocationType>, context: Context) {
-    return isPushTo(move, context)
-  }
 
   highlight(_item: MaterialItem<number, LocationType>, context: Context) {
     return canPlay(context)

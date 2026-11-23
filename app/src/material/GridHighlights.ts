@@ -2,18 +2,18 @@ import { css } from '@emotion/react'
 import { sameCell } from '@gamepark/elementis/material/Grid'
 import { LocationType } from '@gamepark/elementis/material/LocationType'
 import { MaterialType } from '@gamepark/elementis/material/MaterialType'
-import { Power } from '@gamepark/elementis/material/Power'
 import { Mapping } from '@gamepark/elementis/rules/GridMove'
 import { Memory } from '@gamepark/elementis/rules/Memory'
 import { RuleId } from '@gamepark/elementis/rules/RuleId'
-import { ItemContext } from '@gamepark/react-game'
+import { ItemContext, MaterialContext } from '@gamepark/react-game'
 import { isMoveItem, MaterialItem, MaterialMove } from '@gamepark/rules-api'
 
 type Context = ItemContext<number, MaterialType, LocationType>
+type AnyContext = MaterialContext<number, MaterialType, LocationType>
 
 /** The legal moves of the player who looks at the table, computed once per state of the game (the state can change in place). */
 let movesCache: { key: string; moves: MaterialMove<number, MaterialType, LocationType>[] } | undefined
-const myMoves = (context: Context) => {
+const myMoves = (context: AnyContext) => {
   const { items, rule, memory } = context.rules.game
   const key = JSON.stringify([context.player, items, rule, memory])
   if (movesCache?.key !== key) {
@@ -23,16 +23,13 @@ const myMoves = (context: Context) => {
   return movesCache.moves
 }
 
-/** A card the player can play: flip it, move it to apply the power of the card just flipped, or click it to push the played card in there. */
+/** A card the player can play: flip it, or move it to apply the power of the card just flipped. */
 export const canPlay = (context: Context) =>
-  myMoves(context).some((move) => (isMoveItem(move) && move.itemType === context.type && move.itemIndex === context.index) || isPushTo(move, context))
+  myMoves(context).some((move) => isMoveItem(move) && move.itemType === context.type && move.itemIndex === context.index)
 
-/** A push of the played card (P-7) going in at the cell of this card. */
-export const isPushTo = (move: MaterialMove<number, MaterialType, LocationType>, context: Context) => {
-  if (context.rules.remind(Memory.PlayedPower) !== Power.Push || !isMoveItem(move) || move.itemType !== MaterialType.ElementCard) return false
-  const { x, y } = context.rules.material(context.type).getItem(context.index).location
-  return move.location.x === x && move.location.y === y
-}
+/** P-7: the entries outside the grid where the played card can go back in, for the player who looks at the table. */
+export const pushEntries = (context: AnyContext) =>
+  myMoves(context).flatMap((move) => (isMoveItem(move) && move.location.type === LocationType.GridEntry ? [move.location] : []))
 
 /** The cells where the cards moved by the power of the previous turn arrived: putting them back is forbidden [R-5b]. */
 const isMovedLastTurn = (item: MaterialItem<number, LocationType>, context: Context) => {

@@ -3,7 +3,7 @@
   "header.flip.player": "{player} retourne une carte",
   "header.flip.you.no-effect": "Aucun pouvoir n’est applicable : retournez une carte voisine, son pouvoir sera sans effet",
   "header.power.you": "{power}",
-  "header.power.you.push": "Cliquez sur une carte au bout de la ligne ou de la colonne de la carte jouée pour l’y insérer",
+  "header.power.you.push": "Cliquez sur une flèche pour insérer la carte jouée au bout de sa ligne ou de sa colonne",
   "header.power.player": "{player} applique le pouvoir : {power}",
   "power.1": "Échangez une carte intérieure avec une autre carte intérieure, carte centrale comprise.",
   "power.2": "Échangez une carte extérieure avec une autre carte extérieure.",

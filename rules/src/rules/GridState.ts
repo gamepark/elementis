@@ -52,7 +52,15 @@ export class GridState extends MaterialRulesPart<number, MaterialType, LocationT
       if (item.location.rotation) slots[index(item.location)] = { kind: 'revealed', element: item.id.front }
     }
     for (const item of this.elementisCard.getItems()) slots[index(item.location)] = { kind: 'elementis' }
+    // P-7: the played card waiting beside the board still counts in the cell it left
+    const pushed = this.pushedCard.getItem<ElementCardId>()
+    if (pushed) slots[index(this.remind<Cell>(Memory.PlayedCell))] = { kind: 'revealed', element: pushed.id.front }
     return (cell) => slots[cell.y * GRID_SIZE + cell.x]
+  }
+
+  /** P-7: the played card removed from the grid, waiting beside the board to be inserted back. */
+  get pushedCard() {
+    return this.material(MaterialType.ElementCard).location(LocationType.PushedCard)
   }
 
   get lastMove(): Mapping | undefined {
@@ -82,8 +90,8 @@ export class GridState extends MaterialRulesPart<number, MaterialType, LocationT
   }
 
   /** The legal moves of the power of the card just flipped, its element now visible. */
-  powerMoves(played: Cell): GridMove[] {
-    return legalMoves(this.board, this.powerAt(played), played, this.lastMove)
+  powerMoves(played: Cell, power = this.powerAt(played)): GridMove[] {
+    return legalMoves(this.board, power, played, this.lastMove)
   }
 
   /** [R-8] For each element, the cells of its largest zone of orthogonally adjacent cards. The Elementis card neither scores nor links (F14). */

@@ -31,3 +31,12 @@ export const columnCells = ({ x }: Cell): Cell[] => Array.from({ length: GRID_SI
 /** The 2 diagonals going through a cell, each including the cell itself. */
 export const diagonals = (cell: Cell): Cell[][] =>
   [1, -1].map((dx) => gridCells.filter((other) => other.y - cell.y === (other.x - cell.x) * dx))
+
+/** P-7: the entry just outside the grid from which a card goes in at an end cell, coming along a row or a column. */
+export const entryOf = ({ from, to }: { from: Cell; to: Cell }): Cell => {
+  if (from.y === to.y) return { x: to.x === 0 ? -1 : GRID_SIZE, y: to.y }
+  return { x: to.x, y: to.y === 0 ? -1 : GRID_SIZE }
+}
+
+/** P-7: the end cell where a card coming in from an entry arrives. */
+export const entryCell = ({ x, y }: Cell): Cell => ({ x: Math.min(Math.max(x, 0), GRID_SIZE - 1), y: Math.min(Math.max(y, 0), GRID_SIZE - 1) })

@@ -1,13 +1,15 @@
 import { gridCells } from '@gamepark/elementis/material/Grid'
 import { LocationType } from '@gamepark/elementis/material/LocationType'
 import { MaterialType } from '@gamepark/elementis/material/MaterialType'
-import { DropAreaDescription, ItemContext, Locator } from '@gamepark/react-game'
+import { DropAreaDescription, ItemContext, Locator, MaterialContext } from '@gamepark/react-game'
 import { isMoveItem, Location, MaterialMove } from '@gamepark/rules-api'
-import { cardBorderRadius, cardSize, gridCellCoordinates, helpCardCoordinates } from './TableLayout'
+import { pushEntries } from '../material/GridHighlights'
+import { EntryArrow } from './EntryArrow'
+import { arrowSize, cardBorderRadius, cardSize, gridCellCoordinates, gridEntryCoordinates, helpCardCoordinates, pushedCardCoordinates } from './TableLayout'
 
 type Loc = Location<number, LocationType>
 
-/** Each cell of the grid can receive a card: a card dropped on another one swaps with it, a pushed card goes in at an end. */
+/** Each cell of the grid can receive a card: a card dropped on another one swaps with it. */
 class GridCellDescription extends DropAreaDescription<number, MaterialType, LocationType> {
   width = cardSize
   height = cardSize
@@ -39,7 +41,35 @@ class HelpCardsLocator extends Locator<number, MaterialType, LocationType> {
   }
 }
 
+/** P-7: the played card waits beside the board. */
+class PushedCardLocator extends Locator<number, MaterialType, LocationType> {
+  coordinates = pushedCardCoordinates
+}
+
+/** P-7: an arrow outside the grid, where the played card can go back in: a click on it, or dropping the card on it, inserts it there. */
+class GridEntryDescription extends DropAreaDescription<number, MaterialType, LocationType> {
+  width = arrowSize
+  height = arrowSize
+  borderRadius = arrowSize / 2
+  placeOnShortClick = true
+  content = EntryArrow
+}
+
+class GridEntryLocator extends Locator<number, MaterialType, LocationType> {
+  locationDescription = new GridEntryDescription()
+
+  getLocations(context: MaterialContext<number, MaterialType, LocationType>) {
+    return pushEntries(context)
+  }
+
+  getCoordinates(location: Loc) {
+    return gridEntryCoordinates(location.x!, location.y!)
+  }
+}
+
 export const Locators: Partial<Record<LocationType, Locator<number, MaterialType, LocationType>>> = {
   [LocationType.Grid]: new GridLocator(),
-  [LocationType.HelpCards]: new HelpCardsLocator()
+  [LocationType.HelpCards]: new HelpCardsLocator(),
+  [LocationType.PushedCard]: new PushedCardLocator(),
+  [LocationType.GridEntry]: new GridEntryLocator()
 }
