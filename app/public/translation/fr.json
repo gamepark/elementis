@@ -51,5 +51,15 @@
   "help.elementis.score": "Elle ne rapporte aucun point et ne relie pas les zones d’éléments.",
   "help.help-card.title": "Carte Aide de jeu",
   "help.help-card.cards": "Ce pouvoir est présent sur 4 cartes de la grille, une de chaque élément.",
-  "help.silence": "Elementis se joue sans se parler : coopérez en silence !"
+  "help.silence": "Elementis se joue sans se parler : coopérez en silence !",
+  "log.flip": "{player} retourne une carte {element}",
+  "log.flip.no-effect": "{player} retourne une carte {element} : son pouvoir est sans effet",
+  "log.swap": "{player} échange {first} et {second}",
+  "log.card.element": "la carte {element}",
+  "log.card.elementis": "la carte Élémentis",
+  "log.card.hidden": "une carte face pouvoir",
+  "log.push.left": "{player} insère {card} par la gauche de la ligne {line}",
+  "log.push.right": "{player} insère {card} par la droite de la ligne {line}",
+  "log.push.top": "{player} insère {card} par le haut de la colonne {line}",
+  "log.push.bottom": "{player} insère {card} par le bas de la colonne {line}"
 }

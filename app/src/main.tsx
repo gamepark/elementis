@@ -7,6 +7,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { gameAnimations } from './animations/GameAnimations'
 import { App } from './App'
+import { ElementisHistory } from './history/ElementisHistory'
 import { Locators } from './locators/Locators'
 import { Material } from './material/Material'
 import { ElementisScoring } from './scoring/ElementisScoring'
@@ -23,6 +24,7 @@ createRoot(document.getElementById('root')!).render(
       animations={gameAnimations}
       ai={ElementisAI}
       scoring={new ElementisScoring()}
+      logs={new ElementisHistory()}
     >
       <App />
     </GameProvider>
